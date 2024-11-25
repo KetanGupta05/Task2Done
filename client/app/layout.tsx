@@ -20,14 +20,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Toaster position="top-center"/>
-      <UserProvider>
+      
+      
       <body
         className={inter.className}
       >
+        <UserProvider>
+        
+        <Toaster position="top-center"/>
         {children}
+        </UserProvider>
       </body>
-      </UserProvider>
+      
     </html>
   );
 }
