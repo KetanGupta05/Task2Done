@@ -4,10 +4,12 @@ import useRedirect from "@/hooks/useUserRedirect";
 import { useEffect } from "react";
 import { filteredTasks } from "@/utils/utilities";
 import { Task } from "@/utils/types";
+import TaskItem from "../Components/TaskItem/TaskItem";
+import Filters from "../Components/Filters/Filters";
 export default function Home() {
   useRedirect("/login");
 
-  const {tasks,openModalForAdd,priority,completedTasks} =useTasks();
+  const { openModalForAdd, priority, completedTasks, setPriority } = useTasks();
   const filtered = filteredTasks(completedTasks, priority);
 
   useEffect(() => {
