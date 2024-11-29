@@ -8,8 +8,36 @@ export const TasksProvider = ({ children }) => {
     const [tasks, setTasks] = React.useState([]);
     const [loading, setLoading] = React.useState(false);
     const [task, setTask] = React.useState({});
+    const [isEditing, setIsEditing] = React.useState(false);
     const [priority, setPriority] = React.useState("all");
-    const userId = user?._id;
+    const [activeTask, setActiveTask]=React.useState(null);
+    const [modalMode, setModalMode] = React.useState("");
+    const [profileModal, setProfileModal] = React.useState(false);
+
+    const openModalForAdd = () => {
+      setModalMode("add");
+      setIsEditing(true);
+      setTask({});
+    };
+    const openModalForEdit = (task) => {
+      setModalMode("edit");
+      setIsEditing(true);
+      setActiveTask(task);
+    };
+    const openProfileModal = () => {
+      setProfileModal(true);
+    };
+
+    const closeModal = () => {
+      setIsEditing(false);
+      setProfileModal(false);
+      setModalMode("");
+      setActiveTask(null);
+      setTask({});
+    };
+  
+  
+    const userId = useUserContext().user._id;
     async function getTasks() {
         setLoading(true);
         try {
@@ -33,6 +61,7 @@ export const TasksProvider = ({ children }) => {
         }
         setLoading(false);
       };
+
 
       const createTask = async (task) => {
         setLoading(true);
@@ -81,6 +110,20 @@ export const TasksProvider = ({ children }) => {
         }
       };
 
+      const handleInput = (name) => (e) => {
+        if (name === "setTask") {
+          setTask(e);
+        } else {
+          setTask({ ...task, [name]: e.target.value });
+        }
+      };
+      // get completed tasks
+  const completedTasks = tasks.filter((task) => task.completed);
+
+  // get pending tasks
+  const activeTasks = tasks.filter((task) => !task.completed);
+
+
       useEffect(() => {
         getTasks();
       }, [userId]);
@@ -99,8 +142,19 @@ export const TasksProvider = ({ children }) => {
             deleteTask,
             priority,
             setPriority,
-          
-          
+            handleInput,
+           isEditing,
+           setIsEditing,
+           openModalForAdd,
+           openModalForEdit,
+           openProfileModal,
+           closeModal,
+           modalMode,
+           openProfileModal,
+           activeTask,
+           completedTasks,
+           
+
           }}
         >
            {children}
