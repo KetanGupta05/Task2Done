@@ -16,11 +16,11 @@ function Profile() {
       >
         <div>
           <Image
-            src={user?.photo}
+            src="/logo1.jpeg"
             alt="avatar"
-            width={70}
-            height={70}
-            className="rounded-full"
+            width={60}
+            height={60}
+            //className="rounded-full"
           />
         </div>
         <div>
